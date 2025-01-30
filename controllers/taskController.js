@@ -4,14 +4,14 @@ import APIFeatures from '../utils/apiFeatures.js';
 
 export async function getAllTasks(req, res) {
   try {
-
-    const features = new APIFeatures(find(), req.query)
+    
+    const features = new APIFeatures(Task.find(), req.query)
       .filter()
       .sort()
       .limitFields()
       .paginate();
     const tasks = await features.query;
-
+    
     res.status(200).json({
       status: 'success',
       results: tasks.length,
@@ -30,7 +30,7 @@ export async function getAllTasks(req, res) {
 export async function getTask(req, res) {
   try{
     const task = await Task.findById(req.params.id);
-
+    console.log(task);
     res.status(200).json({
       status: 'success',
       data: {

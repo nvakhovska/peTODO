@@ -2,9 +2,14 @@ import fs from 'fs';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import Task from '../models/taskModel.js';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-dotenv.config({ path: './config.env' });
+dotenv.config({ path: '../config.env' });
 
+
+// Get the current directory of the module
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
   process.env.DATABASE_PASSWORD
@@ -18,13 +23,13 @@ mongoose
 
 // READ JSON FILE
 const tasks = JSON.parse(
-  fs.readFileSync(`${__dirname}/test.json`, 'utf-8')
+  fs.readFileSync(`${__dirname}/data/10tasks.json`, 'utf-8')
 );
 
 // IMPORT DATA INTO DB
 const importData = async () => {
   try {
-    await Task.create(task);
+    await Task.create(tasks);
     console.log('Data successfully loaded!');
   } catch (err) {
     console.log(err);
