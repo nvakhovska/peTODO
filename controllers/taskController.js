@@ -1,6 +1,7 @@
-
+import User from '../models/userModel.js';
 import Task from '../models/taskModel.js';
 import APIFeatures from '../utils/apiFeatures.js';
+import mongoose from 'mongoose';
 
 export async function getAllTasks(req, res) {
   try {
@@ -135,9 +136,6 @@ export async function getTaskStats(req, res) {
       },
     ]);
 
-    // Log the result of the aggregation to see the output
-    //console.log(stats);  
-
     res.status(200).json({
       status: 'success',
       data: stats
@@ -148,4 +146,59 @@ export async function getTaskStats(req, res) {
       message: err
     })
   };
+}
+
+export async function getTaskForUser(req, res) {
+  try {
+      // Extract the custom userId from the request (like user_id_1)
+      const userName = req.params.userName;
+    
+      // Find the user document based on the custom userId
+      const user = await User.findOne({ username: userName }); 
+      if (!user) {
+        return res.status(404).json({
+          status: 'fail',
+          message: 'User not found',
+        });
+      }
+
+      // Get today's date at midnight to compare tasks due for today
+      let today = new Date();
+      today.setUTCHours(0, 0, 0, 0); // Set the time to midnight
+      today = today.toISOString().split('.')[0] + "Z";
+      console.log('Today:', today); 
+
+      // Aggregate tasks that are assigned to the user, in-progress or pending, and due today or in the future
+      const tasks = await Task.aggregate([
+        {
+          $match: {
+            assignedTo: { $elemMatch: { $eq: userName } }, // Ensure the task is assigned to the user
+            status: { $in: ['in-progress', 'pending'] }, // Task should be in progress or pending
+            dueDate: { $gte: today } // Task should be due today or in the future
+          }
+        },
+        // Project the relevant fields (optional)
+        {
+          $project: {
+            title: 1,
+            description: 1,
+            status: 1,
+            dueDate: 1,
+            priority: 1,
+            assignedTo: 1
+          }
+        }
+      ]);
+      console.log('Filtered tasks:', tasks);
+      // Respond with the filtered tasks
+      res.status(200).json({
+        status: 'success',
+        data: tasks
+      });
+    } catch (err) {
+      res.status(400).json({
+        status: 'failed',
+        message: err.message
+      });
+    }
 }
