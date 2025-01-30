@@ -1,0 +1,23 @@
+# Node.js dependencies
+**/node_modules/
+**/npm-debug.log
+**/yarn-error.log
+**/package-lock.json
+**/yarn.lock
+**/config.env
+config.env
+*.env
+
+# Build artifacts
+**/dist/
+**/out/
+**/coverage/
+**/.DS_Store
+**/.env
+**/.env.local
+**/.env.*.local
+
+# IDE and OS files
+**/.vscode/
+**/.idea/
+**/*.log
