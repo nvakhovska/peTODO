@@ -1,7 +1,9 @@
 import { Router } from 'express';
-import {getAllTasks, createTask, getTask, updateTask, deleteTask} from '../controllers/taskController.js';
+import {getAllTasks, createTask, getTask, updateTask, deleteTask, getTaskStats} from '../controllers/taskController.js';
 
 const router = Router();
+
+router.route('/task-stats').get(getTaskStats);
 
 router
   .route('/')
