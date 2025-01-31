@@ -1,160 +1,176 @@
-PETODO - Task Management API
+# PETODO - Task Management API
 
 PETODO is a task management API built with Node.js and Express, using MongoDB as the database. It provides endpoints for managing tasks and users.
 
-Getting Started
+## 🚀 Getting Started
 
-Prerequisites
+### 📌 Prerequisites
 
-Node.js (v14 or later)
+- Node.js (v14 or later)
+- MongoDB (Atlas or Local Instance)
 
-MongoDB (Atlas or Local Instance)
+### 📥 Installation
 
-Installation
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/yourusername/petodo.git
+   ```
+2. Navigate to the project directory:
+   ```sh
+   cd petodo
+   ```
+3. Install dependencies:
+   ```sh
+   npm install
+   ```
 
-Clone the repository:
+### ⚙️ Configuration
 
-git clone https://github.com/yourusername/petodo.git
+Create a `.env` file in the root directory with the following content:
 
-Navigate to the project directory:
-
-cd petodo
-
-Install dependencies:
-
-npm install
-
-Configuration
-
-Create a .env file in the root directory with the following content:
-
+```ini
 NODE_ENV=development
 PORT=3000
 DATABASE=mongodb+srv://USERNAME:<PASSWORD>@cluster0.idkp4.mongodb.net/TODO?retryWrites=true
-DATABASE_PASSWORD=**\***
+DATABASE_PASSWORD=*****
+```
 
-Replace USERNAME and <PASSWORD> with your actual MongoDB credentials.
+Replace `USERNAME` and `<PASSWORD>` with your actual MongoDB credentials.
 
-Running the Application
+### ▶️ Running the Application
 
 Start the development server:
 
+```sh
 npm start
+```
 
-API Endpoints
+## 📡 API Endpoints
 
-Task Routes
+### 📝 Task Routes
 
-Get All Tasks
+| Method | Endpoint | Description |
+| ------ | -------- | ----------- |
+|        |          |             |
 
-GET /api/v1/tasks
+| **GET**    | `/api/v1/tasks`                         | Get all tasks        |
+| ---------- | --------------------------------------- | -------------------- |
+| **GET**    | `/api/v1/tasks/:id`                     | Get a single task    |
+| **POST**   | `/api/v1/tasks`                         | Create a task        |
+| **PATCH**  | `/api/v1/tasks/:id`                     | Update a task        |
+| **DELETE** | `/api/v1/tasks/:id`                     | Delete a task        |
+| **GET**    | `/api/v1/tasks/task-stats`              | Get task statistics  |
+| **GET**    | `/api/v1/tasks/task-for-user/:userName` | Get tasks for a user |
 
-Get a Single Task
+### 📌 Example API Request and Response
 
-GET /api/v1/tasks/:id
+#### Create a Task
 
-Create a Task
+**Request:**
 
+```http
 POST /api/v1/tasks
-Body:
+```
 
+**Body:**
+
+```json
 {
-"title": "Task Title",
-"description": "Task Description",
-"status": "pending"
+  "title": "Task Title",
+  "description": "Task Description",
+  "status": "pending"
 }
+```
 
-Update a Task
+#### Update a Task
 
+**Request:**
+
+```http
 PATCH /api/v1/tasks/:id
-Body:
+```
 
+**Body:**
+
+```json
 {
-"status": "completed"
+  "status": "completed"
 }
+```
 
-Delete a Task
-
-DELETE /api/v1/tasks/:id
-
-Get Task Statistics
-
-GET /api/v1/tasks/task-stats
-
-Get Tasks for a User
-
-GET /api/v1/tasks/task-for-user/:userName
-
-User Routes
-
-User routes would be defined in userRoutes.js. Document them accordingly based on implementation.
-
-Task Model
+### 🏗 Task Model
 
 The Task model includes the following fields:
 
-title: String (Required, max 50 chars)
+| Field             | Type    | Description                                                |
+| ----------------- | ------- | ---------------------------------------------------------- |
+| `title`           | String  | Required, max 50 chars                                     |
+| `description`     | String  | Optional task details                                      |
+| `status`          | Enum    | `pending`, `in-progress`, `completed` (Default: `pending`) |
+| `priority`        | Enum    | `low`, `medium`, `high` (Default: `low`)                   |
+| `dueDate`         | Date    | Task deadline                                              |
+| `createdAt`       | Date    | Timestamp (default: now)                                   |
+| `updatedAt`       | Date    | Last update timestamp                                      |
+| `assignedTo`      | Array   | List of User IDs assigned                                  |
+| `assignToAll`     | Boolean | If task is assigned to all users                           |
+| `unassignedUsers` | Array   | List of unassigned User IDs                                |
+| `tags`            | Array   | List of related tags                                       |
+| `subtasks`        | Array   | List of subtasks with `title` and `status`                 |
+| `comments`        | Array   | List of comments (`userId`, `text`, `createdAt`)           |
+| `recurrence`      | Object  | Recurrence settings (`type`, `interval`, `endDate`)        |
 
-description: String
+### 📝 Example Task Object:
 
-status: Enum [pending, in-progress, completed] (Default: pending)
-
-priority: Enum [low, medium, high] (Default: low)
-
-dueDate: Date
-
-createdAt: Date (Default: now)
-
-updatedAt: Date (Default: now)
-
-assignedTo: Array of User IDs
-
-assignToAll: Boolean (Default: false)
-
-unassignedUsers: Array of User IDs
-
-tags: Array of strings
-
-subtasks: Array of objects with title and status
-
-comments: Array of objects with userId, text, and createdAt
-
-recurrence: Object containing type, interval, and endDate
-
-Example Task Object:
-
+```json
 {
-"title": "Grocery Shopping",
-"description": "Buy weekly groceries including vegetables, fruits, and essentials.",
-"status": "pending",
-"priority": "high",
-"dueDate": "2025-02-05T18:00:00Z",
-"createdAt": "2025-01-30T12:00:00Z",
-"updatedAt": "2025-01-30T14:00:00Z",
-"assignedTo": ["user_id_1"],
-"tags": ["shopping", "weekly"],
-"subtasks": [
-{"title": "Make a shopping list", "status": "pending"},
-{"title": "Visit the grocery store", "status": "pending"}
-],
-"comments": [
-{"userId": "user_id_2", "text": "Don't forget to check for discounts!", "createdAt": "2025-01-30T15:00:00Z"}
-],
-"recurrence": {"type": "weekly", "interval": 1, "endDate": "2025-12-31T23:59:59Z"}
+  "title": "Grocery Shopping",
+  "description": "Buy weekly groceries including vegetables, fruits, and essentials.",
+  "status": "pending",
+  "priority": "high",
+  "dueDate": "2025-02-05T18:00:00Z",
+  "createdAt": "2025-01-30T12:00:00Z",
+  "updatedAt": "2025-01-30T14:00:00Z",
+  "assignedTo": ["user_id_1"],
+  "tags": ["shopping", "weekly"],
+  "subtasks": [
+    { "title": "Make a shopping list", "status": "pending" },
+    { "title": "Visit the grocery store", "status": "pending" }
+  ],
+  "comments": [
+    {
+      "userId": "user_id_2",
+      "text": "Don't forget to check for discounts!",
+      "createdAt": "2025-01-30T15:00:00Z"
+    }
+  ],
+  "recurrence": {
+    "type": "weekly",
+    "interval": 1,
+    "endDate": "2025-12-31T23:59:59Z"
+  }
 }
+```
 
-Database Seeding
+## 📊 Database Seeding
 
-To populate the database with sample data, use the provided script in the data folder.
+To populate the database with sample data, use the provided script in the `data` folder.
 
-Import Data
+### 📥 Import Data
 
+```sh
 node data/import-dev-data.js --import
+```
 
-Delete Data
+### ❌ Delete Data
 
+```sh
 node data/import-dev-data.js --delete
+```
 
-License
+## 📜 License
 
 This project is licensed under the MIT License.
+
+---
+
+Happy coding! 🚀
