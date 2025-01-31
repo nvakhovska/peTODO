@@ -1,35 +1,26 @@
 [
-    {
-      "_id": "60c72b2f5f1b2c001c8a75a2",
-      "username": "user_id_1",
-      "email": "user1@example.com",
-      "createdAt": "2025-01-30T12:00:00Z",
-      "updatedAt": "2025-01-30T14:00:00Z",
-      "tasks": [
-        "60c72b2f5f1b2c001c8a75a3", 
-        "60c72b2f5f1b2c001c8a75a4"
-      ]
-    },
-    {
-      "_id": "60c72b2f5f1b2c001c8a75a3",
-      "username": "user_id_2",
-      "email": "user2@example.com",
-      "createdAt": "2025-01-30T12:15:00Z",
-      "updatedAt": "2025-01-30T14:30:00Z",
-      "tasks": [
-        "60c72b2f5f1b2c001c8a75a5",
-        "60c72b2f5f1b2c001c8a75a6"
-      ]
-    },
-    {
-      "_id": "60c72b2f5f1b2c001c8a75a4",
-      "username": "user_id_3",
-      "email": "user3@example.com",
-      "createdAt": "2025-01-30T12:45:00Z",
-      "updatedAt": "2025-01-30T14:45:00Z",
-      "tasks": [
-        "60c72b2f5f1b2c001c8a75a6"
-      ]
-    }
-  ]
-  
+  {
+    "_id": "60c72b2f5f1b2c001c8a75a2",
+    "username": "user_id_1",
+    "email": "user1@example.com",
+    "createdAt": "2025-01-30T12:00:00Z",
+    "updatedAt": "2025-01-30T14:00:00Z",
+    "tasks": ["60c72b2f5f1b2c001c8a75a3", "60c72b2f5f1b2c001c8a75a4"]
+  },
+  {
+    "_id": "60c72b2f5f1b2c001c8a75a3",
+    "username": "user_id_2",
+    "email": "user2@example.com",
+    "createdAt": "2025-01-30T12:15:00Z",
+    "updatedAt": "2025-01-30T14:30:00Z",
+    "tasks": ["60c72b2f5f1b2c001c8a75a5", "60c72b2f5f1b2c001c8a75a6"]
+  },
+  {
+    "_id": "60c72b2f5f1b2c001c8a75a4",
+    "username": "user_id_3",
+    "email": "user3@example.com",
+    "createdAt": "2025-01-30T12:45:00Z",
+    "updatedAt": "2025-01-30T14:45:00Z",
+    "tasks": ["60c72b2f5f1b2c001c8a75a6"]
+  }
+]

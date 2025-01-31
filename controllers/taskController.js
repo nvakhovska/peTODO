@@ -1,7 +1,7 @@
 import User from "../models/userModel.js";
 import Task from "../models/taskModel.js";
 import APIFeatures from "../utils/apiFeatures.js";
-import mongoose from "mongoose";
+import { fetchAggregatedData } from "../database/aggregation.js";
 
 export async function getAllTasks(req, res) {
   try {
@@ -101,35 +101,24 @@ export async function deleteTask(req, res) {
 
 export async function getTaskStats(req, res) {
   try {
-    const stats = await Task.aggregate([
-      // Match tasks that are either in-progress or pending
-      {
-        $match: {
-          status: { $in: ["in-progress", "pending"] },
-          assignedTo: { $exists: true, $not: { $size: 0 } }, // Ensure assignedTo is not empty
-        },
+    const stats = await fetchAggregatedData({
+      model: Task,
+      matchConditions: {
+        status: { $in: ["in-progress", "pending"] },
+        assignedTo: { $exists: true, $not: { $size: 0 } },
       },
-      // Unwind the assignedTo array to process each user separately
-      {
-        $unwind: "$assignedTo",
+      unwindFields: ["assignedTo"],
+      groupBy: {
+        _id: { user: "$assignedTo", status: "$status" },
+        count: { $sum: 1 },
       },
-      // Group by assignedTo user and status, and count the tasks for each user per status
-      {
-        $group: {
-          _id: { user: "$assignedTo", status: "$status" },
-          count: { $sum: 1 },
-        },
+      projectFields: {
+        user: "$_id.user",
+        status: "$_id.status",
+        taskCount: "$count",
+        _id: 0,
       },
-      // Project the result to display user and task count in a clean format
-      {
-        $project: {
-          user: "$_id.user",
-          status: "$_id.status",
-          taskCount: "$count",
-          _id: 0,
-        },
-      },
-    ]);
+    });
 
     res.status(200).json({
       status: "success",
@@ -163,26 +152,22 @@ export async function getTaskForUser(req, res) {
     today = today.toISOString().split(".")[0] + "Z";
 
     // Aggregate tasks that are assigned to the user, in-progress or pending, and due today or in the future
-    const tasks = await Task.aggregate([
-      {
-        $match: {
-          assignedTo: { $elemMatch: { $eq: userName } }, // Ensure the task is assigned to the user
-          status: { $in: ["in-progress", "pending"] }, // Task should be in progress or pending
-          dueDate: { $gte: today }, // Task should be due today or in the future
-        },
+    const tasks = await fetchAggregatedData({
+      model: Task,
+      matchConditions: {
+        assignedTo: { $elemMatch: { $eq: userName } },
+        status: { $in: ["in-progress", "pending"] },
+        dueDate: { $gte: today },
       },
-      // Project the relevant fields (optional)
-      {
-        $project: {
-          title: 1,
-          description: 1,
-          status: 1,
-          dueDate: 1,
-          priority: 1,
-          assignedTo: 1,
-        },
+      projectFields: {
+        title: 1,
+        description: 1,
+        status: 1,
+        dueDate: 1,
+        priority: 1,
+        assignedTo: 1,
       },
-    ]);
+    });
 
     // Respond with the filtered tasks
     res.status(200).json({

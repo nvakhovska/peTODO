@@ -1,96 +1,126 @@
 [
-    {
-      "title": "Grocery Shopping",
-      "description": "Buy weekly groceries including vegetables, fruits, and essentials.",
-      "status": "pending",
-      "priority": "high",
-      "dueDate": "2025-02-05T18:00:00Z",
-      "createdAt": "2025-01-30T12:00:00Z",
-      "updatedAt": "2025-01-30T14:00:00Z",
-      "assignedTo": ["user_id_1"],
-      "tags": ["shopping", "weekly"],
-      "subtasks": [
-        {"title": "Make a shopping list", "status": "pending"},
-        {"title": "Visit the grocery store", "status": "pending"}
-      ],
-      "comments": [
-        {"userId": "user_id_2", "text": "Don't forget to check for discounts!", "createdAt": "2025-01-30T15:00:00Z"}
-      ],
-      "recurrence": {"type": "weekly", "interval": 1, "endDate": "2025-12-31T23:59:59Z"}
-    },
-    {
-      "title": "Laundry Day",
-      "description": "Wash, dry, and fold all family clothes.",
-      "status": "in-progress",
-      "priority": "medium",
-      "dueDate": "2025-02-06T14:00:00Z",
-      "createdAt": "2025-01-30T12:30:00Z",
-      "updatedAt": "2025-01-30T15:00:00Z",
-      "assignedTo": ["user_id_3"],
-      "tags": ["chores", "weekly"],
-      "subtasks": [
-        {"title": "Sort laundry", "status": "completed"},
-        {"title": "Wash clothes", "status": "in-progress"},
-        {"title": "Fold and put away clothes", "status": "pending"}
-      ],
-      "comments": [],
-      "recurrence": {"type": "weekly", "interval": 1, "endDate": "2025-12-31T23:59:59Z"}
-    },
-    {
-      "title": "Family Movie Night",
-      "description": "Pick a movie and enjoy a fun evening together.",
-      "status": "pending",
-      "priority": "low",
-      "dueDate": "2025-02-07T20:00:00Z",
-      "createdAt": "2025-01-30T13:00:00Z",
-      "updatedAt": "2025-01-30T13:30:00Z",
-      "assignedTo": ["user_id_1", "user_id_2", "user_id_3"],
-      "tags": ["family time", "fun"],
-      "subtasks": [
-        {"title": "Vote on a movie", "status": "pending"},
-        {"title": "Prepare popcorn and snacks", "status": "pending"}
-      ],
-      "comments": [
-        {"userId": "user_id_2", "text": "I vote for a comedy!", "createdAt": "2025-01-30T16:00:00Z"}
-      ],
-      "recurrence": {"type": "weekly", "interval": 1, "endDate": "2025-12-31T23:59:59Z"}
-    },
-    {
-      "title": "Clean the Garage",
-      "description": "Declutter and organize the garage.",
-      "status": "pending",
-      "priority": "high",
-      "dueDate": "2025-02-10T10:00:00Z",
-      "createdAt": "2025-01-30T14:00:00Z",
-      "updatedAt": "2025-01-30T14:30:00Z",
-      "assignedTo": ["user_id_1", "user_id_2"],
-      "tags": ["chores", "organization"],
-      "subtasks": [
-        {"title": "Sort items into keep, donate, and trash", "status": "pending"},
-        {"title": "Sweep and clean surfaces", "status": "pending"}
-      ],
-      "comments": [],
-      "recurrence": null
-    },
-    {
-      "title": "Cook Sunday Brunch",
-      "description": "Prepare a delicious homemade brunch for the family.",
-      "status": "pending",
-      "priority": "medium",
-      "dueDate": "2025-02-11T09:00:00Z",
-      "createdAt": "2025-01-30T15:00:00Z",
-      "updatedAt": "2025-01-30T15:30:00Z",
-      "assignedTo": ["user_id_2"],
-      "tags": ["cooking", "family time"],
-      "subtasks": [
-        {"title": "Plan the menu", "status": "pending"},
-        {"title": "Buy ingredients", "status": "pending"},
-        {"title": "Cook and serve", "status": "pending"}
-      ],
-      "comments": [
-        {"userId": "user_id_3", "text": "Can we have pancakes?", "createdAt": "2025-01-30T16:30:00Z"}
-      ],
-      "recurrence": {"type": "weekly", "interval": 1, "endDate": "2025-12-31T23:59:59Z"}
+  {
+    "title": "Grocery Shopping",
+    "description": "Buy weekly groceries including vegetables, fruits, and essentials.",
+    "status": "pending",
+    "priority": "high",
+    "dueDate": "2025-02-05T18:00:00Z",
+    "createdAt": "2025-01-30T12:00:00Z",
+    "updatedAt": "2025-01-30T14:00:00Z",
+    "assignedTo": ["user_id_1"],
+    "tags": ["shopping", "weekly"],
+    "subtasks": [
+      { "title": "Make a shopping list", "status": "pending" },
+      { "title": "Visit the grocery store", "status": "pending" }
+    ],
+    "comments": [
+      {
+        "userId": "user_id_2",
+        "text": "Don't forget to check for discounts!",
+        "createdAt": "2025-01-30T15:00:00Z"
+      }
+    ],
+    "recurrence": {
+      "type": "weekly",
+      "interval": 1,
+      "endDate": "2025-12-31T23:59:59Z"
     }
-  ]
-  
+  },
+  {
+    "title": "Laundry Day",
+    "description": "Wash, dry, and fold all family clothes.",
+    "status": "in-progress",
+    "priority": "medium",
+    "dueDate": "2025-02-06T14:00:00Z",
+    "createdAt": "2025-01-30T12:30:00Z",
+    "updatedAt": "2025-01-30T15:00:00Z",
+    "assignedTo": ["user_id_3"],
+    "tags": ["chores", "weekly"],
+    "subtasks": [
+      { "title": "Sort laundry", "status": "completed" },
+      { "title": "Wash clothes", "status": "in-progress" },
+      { "title": "Fold and put away clothes", "status": "pending" }
+    ],
+    "comments": [],
+    "recurrence": {
+      "type": "weekly",
+      "interval": 1,
+      "endDate": "2025-12-31T23:59:59Z"
+    }
+  },
+  {
+    "title": "Family Movie Night",
+    "description": "Pick a movie and enjoy a fun evening together.",
+    "status": "pending",
+    "priority": "low",
+    "dueDate": "2025-02-07T20:00:00Z",
+    "createdAt": "2025-01-30T13:00:00Z",
+    "updatedAt": "2025-01-30T13:30:00Z",
+    "assignedTo": ["user_id_1", "user_id_2", "user_id_3"],
+    "tags": ["family time", "fun"],
+    "subtasks": [
+      { "title": "Vote on a movie", "status": "pending" },
+      { "title": "Prepare popcorn and snacks", "status": "pending" }
+    ],
+    "comments": [
+      {
+        "userId": "user_id_2",
+        "text": "I vote for a comedy!",
+        "createdAt": "2025-01-30T16:00:00Z"
+      }
+    ],
+    "recurrence": {
+      "type": "weekly",
+      "interval": 1,
+      "endDate": "2025-12-31T23:59:59Z"
+    }
+  },
+  {
+    "title": "Clean the Garage",
+    "description": "Declutter and organize the garage.",
+    "status": "pending",
+    "priority": "high",
+    "dueDate": "2025-02-10T10:00:00Z",
+    "createdAt": "2025-01-30T14:00:00Z",
+    "updatedAt": "2025-01-30T14:30:00Z",
+    "assignedTo": ["user_id_1", "user_id_2"],
+    "tags": ["chores", "organization"],
+    "subtasks": [
+      {
+        "title": "Sort items into keep, donate, and trash",
+        "status": "pending"
+      },
+      { "title": "Sweep and clean surfaces", "status": "pending" }
+    ],
+    "comments": [],
+    "recurrence": null
+  },
+  {
+    "title": "Cook Sunday Brunch",
+    "description": "Prepare a delicious homemade brunch for the family.",
+    "status": "pending",
+    "priority": "medium",
+    "dueDate": "2025-02-11T09:00:00Z",
+    "createdAt": "2025-01-30T15:00:00Z",
+    "updatedAt": "2025-01-30T15:30:00Z",
+    "assignedTo": ["user_id_2"],
+    "tags": ["cooking", "family time"],
+    "subtasks": [
+      { "title": "Plan the menu", "status": "pending" },
+      { "title": "Buy ingredients", "status": "pending" },
+      { "title": "Cook and serve", "status": "pending" }
+    ],
+    "comments": [
+      {
+        "userId": "user_id_3",
+        "text": "Can we have pancakes?",
+        "createdAt": "2025-01-30T16:30:00Z"
+      }
+    ],
+    "recurrence": {
+      "type": "weekly",
+      "interval": 1,
+      "endDate": "2025-12-31T23:59:59Z"
+    }
+  }
+]
