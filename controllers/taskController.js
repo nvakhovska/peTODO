@@ -30,7 +30,7 @@ export async function getAllTasks(req, res) {
 export async function getTask(req, res) {
   try {
     const task = await Task.findById(req.params.id);
-    console.log(task);
+
     res.status(200).json({
       status: "success",
       data: {
@@ -47,7 +47,7 @@ export async function getTask(req, res) {
 
 export async function createTask(req, res) {
   try {
-    const newTask = await create(req.body);
+    const newTask = await Task.create(req.body);
 
     res.status(201).json({
       status: "success",
@@ -86,7 +86,7 @@ export async function updateTask(req, res) {
 
 export async function deleteTask(req, res) {
   try {
-    await findByIdAndDelete(req.params.id);
+    await Task.findByIdAndDelete(req.params.id);
     res.status(204).json({
       status: "success",
       data: null,
@@ -134,10 +134,11 @@ export async function getTaskStats(req, res) {
 
 export async function getTaskForUser(req, res) {
   try {
-    // Extract the custom userId from the request (like user_id_1)
+    // Extract the custom userName from the request (like user_id_1)
     const userName = req.params.userName;
+    console.log(userName);
 
-    // Find the user document based on the custom userId
+    // Find the user document based on the custom userId (username)
     const user = await User.findOne({ username: userName });
     if (!user) {
       return res.status(404).json({
@@ -149,27 +150,53 @@ export async function getTaskForUser(req, res) {
     // Get today's date at midnight to compare tasks due for today
     let today = new Date();
     today.setUTCHours(0, 0, 0, 0); // Set the time to midnight
-    today = today.toISOString().split(".")[0] + "Z";
 
     // Aggregate tasks that are assigned to the user, in-progress or pending, and due today or in the future
-    const tasks = await fetchAggregatedData({
-      model: Task,
-      matchConditions: {
-        assignedTo: { $elemMatch: { $eq: userName } },
-        status: { $in: ["in-progress", "pending"] },
-        dueDate: { $gte: today },
+    const tasks = await Task.aggregate([
+      {
+        $match: {
+          assignedTo: { $elemMatch: { $eq: user._id } },
+          status: { $in: ["in-progress", "pending"] },
+          dueDate: { $gte: today },
+        },
       },
-      projectFields: {
-        title: 1,
-        description: 1,
-        status: 1,
-        dueDate: 1,
-        priority: 1,
-        assignedTo: 1,
+      {
+        $project: {
+          title: 1,
+          description: 1,
+          status: 1,
+          dueDate: 1,
+          priority: 1,
+          assignedTo: 1,
+        },
       },
-    });
+      {
+        $lookup: {
+          from: "users", // the users collection
+          localField: "assignedTo", // field in tasks to match with _id in users
+          foreignField: "_id", // match with _id in users collection
+          as: "assignedUsers", // alias for the users with matched IDs
+        },
+      },
+      {
+        $project: {
+          title: 1,
+          description: 1,
+          status: 1,
+          dueDate: 1,
+          priority: 1,
+          assignedTo: {
+            $map: {
+              input: "$assignedUsers",
+              as: "user",
+              in: "$$user.username", // Map the usernames
+            },
+          },
+        },
+      },
+    ]);
 
-    // Respond with the filtered tasks
+    // Respond with the filtered tasks, now with usernames in assignedTo
     res.status(200).json({
       status: "success",
       data: tasks,

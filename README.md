@@ -127,26 +127,18 @@ The Task model includes the following fields:
   "description": "Buy weekly groceries including vegetables, fruits, and essentials.",
   "status": "pending",
   "priority": "high",
-  "dueDate": "2025-02-05T18:00:00Z",
-  "createdAt": "2025-01-30T12:00:00Z",
-  "updatedAt": "2025-01-30T14:00:00Z",
-  "assignedTo": ["user_id_1"],
+  "dueDate": "2025-02-05T18:00:00.000Z",
+  "createdAt": "2025-01-30T12:00:00.000Z",
+  "updatedAt": "2025-01-30T14:00:00.000Z",
   "tags": ["shopping", "weekly"],
   "subtasks": [
     { "title": "Make a shopping list", "status": "pending" },
     { "title": "Visit the grocery store", "status": "pending" }
   ],
-  "comments": [
-    {
-      "userId": "user_id_2",
-      "text": "Don't forget to check for discounts!",
-      "createdAt": "2025-01-30T15:00:00Z"
-    }
-  ],
   "recurrence": {
     "type": "weekly",
     "interval": 1,
-    "endDate": "2025-12-31T23:59:59Z"
+    "endDate": "2025-12-31T23:59:59.000Z"
   }
 }
 ```
@@ -155,16 +147,16 @@ The Task model includes the following fields:
 
 To populate the database with sample data, use the provided script in the `data` folder.
 
-### 📥 Import Data
+### 📥 Import tasks into the system and assign users randomly
 
 ```sh
-node data/import-dev-data.js --import
+node dev-data/import-dev-data.js --import
 ```
 
-### ❌ Delete Data
+### ❌ Delete all tasks and users from the system
 
 ```sh
-node data/import-dev-data.js --delete
+node dev-data/import-dev-data.js --delete
 ```
 
 ## 📜 License
