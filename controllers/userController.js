@@ -1,6 +1,5 @@
 import User from "../models/userModel.js";
 import APIFeatures from "../utils/apiFeatures.js";
-import { fetchAggregatedData } from "../database/aggregation.js";
 
 export async function getAllUsers(req, res) {
   try {
