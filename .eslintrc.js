@@ -28,6 +28,7 @@ export default {
     "no-console": "off",
     "no-debugger": "warn",
     "react/react-in-jsx-scope": "off",
+    "prefer-destructuring": ["error", { object: true, array: false }],
   },
   settings: {
     react: {
