@@ -8,6 +8,7 @@ import {
   getTaskStats,
   getTaskForUser,
 } from "../controllers/taskController.js";
+import { protect } from "../controllers/authController.js";
 
 const router = Router();
 
@@ -16,7 +17,7 @@ router.route("/task-for-user/:userName").get(getTaskForUser);
 
 router
   .route("/")
-  .get(getAllTasks)
+  .get(protect, getAllTasks)
   .post(createTask);
 
 router
