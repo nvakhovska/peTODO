@@ -103,7 +103,7 @@ export const getTaskStats = catchAsync(async (req, res, next) => {
 
 export const getTaskForUser = catchAsync(async (req, res, next) => {
   // Extract the custom userName from the request (like user_id_1)
-  const userName = req.params.userName;
+  const { userName } = req.params;
   console.log(userName);
 
   // Find the user document based on the custom userId (username)
