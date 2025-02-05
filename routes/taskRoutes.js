@@ -8,6 +8,7 @@ import {
   getTaskStats,
   getTaskForUser,
 } from "../controllers/taskController.js";
+import { protect, restrictTo } from "../controllers/authController.js";
 
 const router = Router();
 
@@ -16,13 +17,13 @@ router.route("/task-for-user/:userName").get(getTaskForUser);
 
 router
   .route("/")
-  .get(getAllTasks)
+  .get(protect, getAllTasks)
   .post(createTask);
 
 router
   .route("/:id")
   .get(getTask)
   .patch(updateTask)
-  .delete(deleteTask);
+  .delete(protect, restrictTo("admin"), deleteTask);
 
 export default router;
