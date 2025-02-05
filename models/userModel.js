@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import { Schema, model } from "mongoose";
 import slugify from "slugify";
 import validator from "validator";
@@ -55,6 +56,8 @@ const userSchema = new Schema({
     },
   },
   passwordChangedAt: Date,
+  passwordResetToken: String,
+  passwordResetExpires: Date,
 });
 
 userSchema.pre("save", async function(next) {
@@ -63,6 +66,13 @@ userSchema.pre("save", async function(next) {
   this.password = await bcrypt.hash(this.password, 12);
 
   this.passwordConfirm = undefined;
+  next();
+});
+
+userSchema.pre("save", function(next) {
+  if (!this.isModified("password") || this.isNew) return next();
+
+  this.passwordChangedAt = Date.now() - 1000;
   next();
 });
 
@@ -82,6 +92,19 @@ userSchema.methods.changedPasswordAfter = function(JWTTimeStamp) {
     return JWTTimeStamp < changedTimestamp;
   }
   return false;
+};
+
+userSchema.methods.createPasswordResetToken = function() {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+
+  return resetToken;
 };
 
 // userSchema.pre("save", function(next) {
