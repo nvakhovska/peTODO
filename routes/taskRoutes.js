@@ -13,7 +13,7 @@ import { protect, restrictTo } from "../controllers/authController.js";
 const router = Router();
 
 router.route("/task-stats").get(getTaskStats);
-router.route("/task-for-user/:userName").get(getTaskForUser);
+router.route("/task-for-user/:id").get(protect, getTaskForUser);
 
 router
   .route("/")

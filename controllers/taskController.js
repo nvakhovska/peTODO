@@ -103,13 +103,12 @@ export const getTaskStats = catchAsync(async (req, res, next) => {
 
 export const getTaskForUser = catchAsync(async (req, res, next) => {
   // Extract the custom userName from the request (like user_id_1)
-  const { userName } = req.params;
-  console.log(userName);
-
+  const userid = req.params.id;
+  console.log(userid);
   // Find the user document based on the custom userId (username)
-  const user = await User.findOne({ username: userName });
+  const user = await User.findById(userid);
   if (!user) {
-    return next(new AppError("No user found with that userName", 404));
+    return next(new AppError("No user found with that id", 404));
   }
 
   // Get today's date at midnight to compare tasks due for today
@@ -122,7 +121,7 @@ export const getTaskForUser = catchAsync(async (req, res, next) => {
       $match: {
         assignedTo: { $elemMatch: { $eq: user._id } },
         status: { $in: ["in-progress", "pending"] },
-        dueDate: { $gte: today },
+        //dueDate: { $gte: today },
       },
     },
     {
@@ -133,6 +132,7 @@ export const getTaskForUser = catchAsync(async (req, res, next) => {
         dueDate: 1,
         priority: 1,
         assignedTo: 1,
+        subtasks: 1,
       },
     },
     {
@@ -150,6 +150,7 @@ export const getTaskForUser = catchAsync(async (req, res, next) => {
         status: 1,
         dueDate: 1,
         priority: 1,
+        subtasks: 1,
         assignedTo: {
           $map: {
             input: "$assignedUsers",

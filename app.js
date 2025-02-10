@@ -14,6 +14,7 @@ import globalErrorHandler from "./controllers/errorController.js"; // Global err
 // Importing custom routes for task and user resources
 import taskRouter from "./routes/taskRoutes.js"; // Task-related routes
 import userRouter from "./routes/userRoutes.js"; // User-related routes
+import cors from "cors";
 
 // Get the current file's path and directory path
 const __filename = fileURLToPath(import.meta.url); // Current file name in absolute path
@@ -24,6 +25,14 @@ const app = express();
 
 // Helmet helps secure the app by setting various HTTP headers
 app.use(helmet());
+
+// Use CORS middleware
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Allow requests from your frontend's URL
+    credentials: true, // Allow cookies (if you’re using them)
+  })
+);
 
 // Logging middleware: Only enabled in 'development' mode
 if (process.env.NODE_ENV === "development") {
