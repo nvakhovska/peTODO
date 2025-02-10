@@ -73,6 +73,35 @@ export const getUser = catchAsync(async (req, res) => {
   });
 });
 
+export const getByUsernameOrEmail = catchAsync(async (req, res) => {
+  const { input } = req.body;
+  // Check if the input is an email or username
+  let user = null;
+  // Try to find a user by email first
+  if (input.includes("@")) {
+    user = await User.findOne({
+      email: input,
+    });
+  }
+
+  // If no user is found by email, try to find by username
+  if (!user) {
+    user = await User.findOne({
+      username: input,
+    });
+  }
+
+  // If user is not found, throw an error
+  if (!user) {
+    throw new Error("User not found with the provided username or email");
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: user._id,
+  });
+});
+
 export const createUser = catchAsync(async (req, res) => {
   const newUser = await User.create(req.body);
 
