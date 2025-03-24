@@ -1,4 +1,6 @@
 import { Router } from "express";
+import passport from "passport";
+import { googleAuthCallback } from "../controllers/authController.js";
 import {
   getAllUsers,
   createUser,
@@ -22,6 +24,17 @@ const router = Router();
 
 router.post("/signup", signup);
 router.post("/login", login);
+
+router.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+router.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { session: false }),
+  googleAuthCallback
+);
 
 router.post("/forgotPassword", forgotPassword);
 router.patch("/resetPassword/:token", resetPassword);

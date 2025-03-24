@@ -197,3 +197,10 @@ export const updatePassword = catchAsync(async (req, res, next) => {
 
   createSendToken(user, 200, res);
 });
+
+export const googleAuthCallback = (req, res) => {
+  const { user } = req;
+  const token = signToken(user._id);
+  const redirectUrl = `http://localhost:5173/oauth-success?token=${token}`;
+  res.redirect(redirectUrl);
+};

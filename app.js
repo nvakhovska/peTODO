@@ -10,6 +10,9 @@ import path from "path"; // To handle and transform file paths
 import { fileURLToPath } from "url"; // To convert the file URL to path
 import AppError from "./utils/appError.js"; // Custom error handling class
 import globalErrorHandler from "./controllers/errorController.js"; // Global error handler middleware
+import session from "express-session";
+import passport from "passport";
+import "./config/passport.js"; // Load Google OAuth strategy
 
 // Importing custom routes for task and user resources
 import taskRouter from "./routes/taskRoutes.js"; // Task-related routes
@@ -30,7 +33,7 @@ app.use(helmet());
 app.use(
   cors({
     origin: "http://localhost:5173", // Allow requests from your frontend's URL
-    credentials: true, // Allow cookies (if you’re using them)
+    credentials: true, // Allow cookies
   })
 );
 
@@ -70,6 +73,12 @@ app.use((req, res, next) => {
   req.requestTime = new Date().toISOString(); // Adds a 'requestTime' property to the request object
   next(); // Pass the control to the next middleware or route handler
 });
+
+app.use(
+  session({ secret: "keyboard cat", resave: false, saveUninitialized: false })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Define API routes for tasks and users
 app.use("/api/v1/tasks", taskRouter); // Routes for task operations
