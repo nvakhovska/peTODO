@@ -13,8 +13,6 @@ import globalErrorHandler from "./controllers/errorController.js"; // Global err
 import session from "express-session";
 import passport from "passport";
 import "./config/passport.js"; // Load Google OAuth strategy
-// eslint-disable-next-line no-redeclare
-import rateLimit from "express-rate-limit";
 
 // Importing custom routes for task and user resources
 import taskRouter from "./routes/taskRoutes.js"; // Task-related routes
