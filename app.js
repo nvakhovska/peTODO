@@ -12,6 +12,7 @@ import AppError from "./utils/appError.js"; // Custom error handling class
 import globalErrorHandler from "./controllers/errorController.js"; // Global error handler middleware
 import session from "express-session";
 import passport from "passport";
+import MongoStore from "connect-mongo";
 import "./config/passport.js"; // Load Google OAuth strategy
 
 // Importing custom routes for task and user resources
@@ -75,7 +76,23 @@ app.use((req, res, next) => {
 });
 
 app.use(
-  session({ secret: "keyboard cat", resave: false, saveUninitialized: false })
+  session({
+    secret: process.env.SESSION_SECRET || "keyboard cat",
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.DATABASE.replace(
+        "<PASSWORD>",
+        process.env.DATABASE_PASSWORD
+      ),
+      ttl: 14 * 24 * 60 * 60, // Optional: session lifetime (14 days)
+    }),
+    cookie: {
+      secure: false, // set to true if using HTTPS (e.g., Vercel frontend with custom domain + HTTPS)
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+    },
+  })
 );
 app.use(passport.initialize());
 app.use(passport.session());
