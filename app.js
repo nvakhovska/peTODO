@@ -83,6 +83,9 @@ app.use(passport.session());
 // Define API routes for tasks and users
 app.use("/api/v1/tasks", taskRouter); // Routes for task operations
 app.use("/api/v1/users", userRouter); // Routes for user operations
+app.get("/ping", (req, res) => {
+  res.status(200).json({ status: "ok", message: "peTODO backend is live 🐶" });
+});
 
 // Catch-all route for undefined routes (404 - Not Found error)
 app.all("*", (req, res, next) => {
