@@ -28,6 +28,7 @@ jobs:
     name: Deploy to Render
     needs: test # only run if tests pass
     runs-on: ubuntu-latest
+    if: success()
     steps:
       - name: Trigger Render deploy
         run: |
