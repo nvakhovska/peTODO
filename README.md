@@ -1,6 +1,7 @@
 # PETODO - Task Management API
 
 ![Tests](https://github.com/nvakhovska/peTODO/actions/workflows/test.yml/badge.svg)
+
 ![Deploy](https://github.com/nvakhovska/peTODO/actions/workflows/test-and-deploy.yml/badge.svg)
 
 PETODO is a task management API built with Node.js and Express, using MongoDB as the database. It provides endpoints for managing tasks and users.
