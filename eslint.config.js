@@ -1,41 +1,50 @@
-// eslint.config.js (Flat Config for ESLint 9+)
 import js from "@eslint/js";
 import tseslint from "@typescript-eslint/eslint-plugin";
 import tsparser from "@typescript-eslint/parser";
-import global from "./.eslintrc.js";
+import jestPlugin from "eslint-plugin-jest";
 
 export default [
-  js.configs.recommended, // Enable ESLint recommended rules
+  js.configs.recommended,
   {
-    files: ["**/*.{js,jsx,ts,tsx}"], // Apply ESLint to these file types
+    files: ["**/*.{js,jsx,ts,tsx}"],
     languageOptions: {
-      parser: tsparser, // Use TypeScript parser
+      parser: tsparser,
       sourceType: "module",
+      ecmaVersion: 2021,
+      globals: {
+        browser: true,
+        node: true,
+        process: true,
+        console: true,
+      },
     },
     plugins: {
-      "@typescript-eslint": tseslint, // Enable TypeScript linting
+      "@typescript-eslint": tseslint,
     },
     rules: {
-      // Custom rules
       "no-unused-vars": "warn",
       "no-console": "warn",
-      "@typescript-eslint/no-unused-vars": "warn",
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        { argsIgnorePattern: "^_" },
+      ],
       eqeqeq: "error",
+      "no-debugger": "warn",
+      "prefer-destructuring": ["error", { object: true, array: false }],
     },
   },
   {
-    files: ["**/*.{js,jsx,ts,tsx}"], // Apply ESLint to these file types
-    languageOptions: {
-      parser: tsparser, // Use TypeScript parser
-      sourceType: "module",
-      globals: global.env, // Set global variables from the global config
-    },
+    files: ["**/*.test.{js,ts,jsx,tsx}", "test/**/*.{js,ts}"],
     plugins: {
-      "@typescript-eslint": tseslint, // Enable TypeScript linting
+      jest: jestPlugin,
+    },
+    languageOptions: {
+      globals: {
+        ...jestPlugin.environments.globals.globals,
+      },
     },
     rules: {
-      // Apply rules from the global config object
-      ...global.rules,
+      ...jestPlugin.configs.recommended.rules,
     },
   },
 ];
